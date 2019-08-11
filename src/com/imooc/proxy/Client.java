@@ -7,18 +7,12 @@ package com.imooc.proxy;
  * @Version: 1.0
  */
 public class Client {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         Car car = new Car();
-        CarTimeProxy ctp = new CarTimeProxy(car);
-        CarLogProxy clp = new CarLogProxy(ctp);
-        clp.move();
+        InvocationHandler h = new TimeHandler(car);
 
-//        输出:
-//        日志开始....
-//        汽车开始行驶....
-//        汽车行驶中...
-//        汽车结束行驶....  汽车行驶时间：608毫秒！
-//        日志结束....
+        Moveable m = (Moveable) Proxy.newProxyInstance(Moveable.class, h);
+        m.move();
     }
 }
 
